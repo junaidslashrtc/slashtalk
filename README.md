@@ -1,255 +1,341 @@
-# 💬 SlashChat
+# SlashTalk 💬
 
-A modern, real-time messaging application with advanced private mention capabilities within group chats. Built with React, Node.js, Socket.IO, and MongoDB.
+A modern, real-time chat application built with React and Node.js featuring both private messaging and advanced group chat capabilities.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)
-![React](https://img.shields.io/badge/react-18.x-61dafb.svg)
+![SlashTalk Demo](https://img.shields.io/badge/Status-Live-green)
+![React](https://img.shields.io/badge/React-19.1.1-blue)
+![Node.js](https://img.shields.io/badge/Node.js-Express-orange)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-green)
+![Socket.IO](https://img.shields.io/badge/Real--time-Socket.IO-yellow)
 
 ## ✨ Features
 
-### 🎯 Core Functionality
-- **Real-time Messaging**: Instant message delivery powered by Socket.IO
-- **Group Chats**: Create and manage group conversations
-- **Private Mentions**: Send private messages within group chats using @mentions
-- **User Authentication**: Secure JWT-based authentication
-- **Message History**: Persistent conversation storage with MongoDB
-- **Responsive Design**: Beautiful UI with dark mode support
+### 🔐 Authentication & User Management
+- **Secure Registration & Login** with JWT tokens
+- **Profile Management** - Update username, email, avatar
+- **User Search** - Find and connect with other users
+- **Protected Routes** - Secure access to chat features
 
-### 🔒 Advanced Privacy Features
-- **Selective Message Visibility**: Messages with @mentions are only visible to mentioned users
-- **Database-Level Privacy**: Privacy enforced at the database layer
-- **Group Membership Validation**: Only actual group members can be mentioned
-- **Visual Indicators**: Clear UI indicators for private mentions
+### 💬 Private Messaging
+- **Real-time Chat** - Instant message delivery
+- **Message History** - Persistent conversation storage
+- **Emoji Support** - Rich message formatting
+- **Online Status** - See who's online
+- **Auto-scroll** - Messages automatically scroll to bottom
 
-## 🏗️ Architecture
+### 👥 Advanced Group Chat
+- **Create Groups** - Set up group chats with custom avatars
+- **Member Management** - Add/remove members, promote admins
+- **Admin Controls** - Full group management capabilities
+- **Private Mentions** - Mention specific users with @username
+- **Selective Visibility** - Private messages visible only to mentioned users
+- **Group Settings** - Update group name, description, avatar
+
+### 🎨 Modern UI/UX
+- **Responsive Design** - Works perfectly on mobile and desktop
+- **Dark Mode** - Built-in theme toggle
+- **Modern Interface** - Clean, intuitive design with TailwindCSS
+- **Loading States** - Smooth loading animations and skeletons
+- **Real-time Updates** - Live connection status and message delivery
+
+## 🚀 Tech Stack
+
+### Frontend
+- **React 19.1.1** - Modern React with latest features
+- **Vite** - Lightning-fast build tool
+- **TailwindCSS 4.1.13** - Utility-first CSS framework
+- **Redux Toolkit** - State management
+- **Socket.IO Client** - Real-time communication
+- **Lucide React** - Beautiful icons
+
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express 5.1.0** - Web framework
+- **MongoDB** - NoSQL database
+- **Socket.IO 4.8.1** - Real-time bidirectional communication
+- **JWT** - Authentication tokens
+- **bcrypt** - Password hashing
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB (local or cloud instance)
+- Git
+
+### Clone the Repository
+```bash
+git clone https://github.com/yourusername/slashtalk.git
+cd slashtalk
+```
+
+### Backend Setup
+```bash
+cd server
+npm install
+
+# Create .env file
+touch .env
+```
+
+Add the following to your `.env` file:
+```env
+CONNECTION_STRING=mongodb://localhost:27017/slashtalk
+JWT_SECRET_KEY=your_super_secret_jwt_key_here
+PORT=7771
+```
+
+Start the backend server:
+```bash
+npm start
+```
+
+### Frontend Setup
+```bash
+cd client
+npm install
+
+# Update the backend URL in src/utils/constant.js
+# Change BACKEND_BASE_URL to your backend URL
+```
+
+Start the development server:
+```bash
+npm run dev
+```
+
+## 🏗️ Project Structure
 
 ```
-SlashChat/
+slashtalk/
 ├── client/                 # React frontend
 │   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── utils/         # Utility functions
-│   │   └── App.jsx        # Main application
+│   │   ├── components/     # Reusable UI components
+│   │   │   ├── modal/      # Modal components
+│   │   │   ├── ChatWindow.jsx
+│   │   │   └── GroupChatWindow.jsx
+│   │   ├── contexts/       # React contexts
+│   │   ├── hooks/          # Custom hooks
+│   │   ├── pages/          # Page components
+│   │   └── utils/          # Utility functions
 │   └── package.json
-│
 ├── server/                 # Node.js backend
+│   ├── controllers/        # Route controllers
 │   ├── models/            # Database models
-│   ├── utils/             # Server utilities
-│   │   └── socket.js      # Socket.IO handlers
-│   ├── scripts/           # Database scripts
-│   └── server.js          # Express server
-│
+│   ├── routes/            # API routes
+│   ├── middlewares/       # Express middlewares
+│   ├── utils/             # Utility functions
+│   └── app.js             # Main server file
 └── README.md
 ```
 
-## 🚀 Getting Started
+## 🔌 API Endpoints
 
-### Prerequisites
+### Authentication
+- `POST /register` - User registration
+- `POST /login` - User login
+- `POST /logout` - User logout
 
-- Node.js (v14.0.0 or higher)
-- MongoDB (v4.0 or higher)
-- npm or yarn
+### Users
+- `GET /user/me` - Get current user profile
+- `PUT /user/me` - Update user profile
+- `GET /user/search` - Search users
+- `GET /user/:id` - Get user by ID
 
-### Installation
+### Groups
+- `POST /groups` - Create group
+- `GET /groups/:groupId` - Get group details
+- `GET /users/:userId/groups` - Get user's groups
+- `POST /groups/:groupId/members` - Add member
+- `DELETE /groups/:groupId/members/:userId` - Remove member
+- `PUT /groups/:groupId` - Update group
+- `POST /groups/:groupId/admins` - Promote to admin
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/slashchat.git
-   cd slashchat
-   ```
+### Messages
+- `GET /conversations/:senderId/:receiverId/messages` - Private chat history
+- `GET /groups/:groupId/messages` - Group chat history
 
-2. **Install server dependencies**
-   ```bash
-   cd server
-   npm install
-   ```
+## 🔌 WebSocket Events
 
-3. **Install client dependencies**
-   ```bash
-   cd ../client
-   npm install
-   ```
+### Client → Server
+- `joinChat` - Join private chat room
+- `joinGroup` - Join group chat room
+- `sendMessage` - Send private message
+- `sendGroupMessage` - Send group message
+- `getConversation` - Request chat history
+- `getGroupConversation` - Request group history
 
-4. **Configure environment variables**
-   
-   Create a `.env` file in the `server` directory:
-   ```env
-   JWT_SECRET_KEY=your_secret_key_here
-   CONNECTION_STRING=mongodb://localhost:27017/slashchat
-   PORT=5000
-   ```
+### Server → Client
+- `messageReceived` - Private message received
+- `groupMessageReceived` - Group message received
+- `conversationHistory` - Chat history response
+- `groupConversationHistory` - Group history response
+- `userJoinedGroup` - User joined group notification
 
-5. **Set up database indexes**
-   ```bash
-   cd server
-   node scripts/createMessageIndexes.js
-   ```
+## 🎯 Usage
 
-6. **Start the application**
-   
-   Terminal 1 (Server):
-   ```bash
-   cd server
-   npm start
-   ```
-   
-   Terminal 2 (Client):
-   ```bash
-   cd client
-   npm start
-   ```
+### Getting Started
+1. **Register** a new account or **login** with existing credentials
+2. **Search** for users to start private conversations
+3. **Create groups** for team discussions
+4. **Manage groups** with admin controls
+5. **Mention users** in groups with @username for private messages
 
-The application will be available at `http://localhost:3000`
+### Key Features
 
-## 📖 Usage
+#### Private Messaging
+- Click on any user to start a private conversation
+- Messages are delivered in real-time
+- Conversation history is automatically loaded
 
-### Basic Messaging
+#### Group Management
+- Create groups with custom names and avatars
+- Add/remove members (admin only)
+- Promote members to admin
+- Update group settings
 
-1. **Sign up** or **log in** to your account
-2. **Create a group** or join an existing one
-3. **Send messages** in real-time to all group members
+#### Advanced Group Features
+- Use @username to mention specific users
+- Mentioned users receive private notifications
+- Messages with mentions are only visible to mentioned users
 
-### Private Mentions
+## 🔒 Security Features
 
-Send private messages within group chats by mentioning specific users:
+- **JWT Authentication** with HTTP-only cookies
+- **Password Hashing** using bcrypt
+- **Input Validation** on both client and server
+- **CORS Protection** with configured origins
+- **Protected Routes** requiring authentication
+- **Role-based Access Control** for group management
 
-```
-@john Hey, can you help me with the report?
-```
+## 🚀 Deployment
 
-Only you and John will see this message. Other group members won't see it at all.
+### Environment Variables
+Ensure the following environment variables are set:
 
-### Multiple Mentions
-
-Mention multiple users for private group discussions:
-
-```
-@alice @bob Can you both review the proposal?
-```
-
-Only you, Alice, and Bob will see this message.
-
-## 🔧 Technical Details
-
-### Private Mention System
-
-The private mention feature uses a sophisticated visibility system:
-
-1. **Mention Detection**: Regex-based parsing extracts @mentions from messages
-2. **User Validation**: Verifies mentioned users are actual group members
-3. **Database Storage**: Messages stored with visibility metadata
-4. **Selective Broadcasting**: Real-time delivery only to authorized users
-5. **History Filtering**: Database-level filtering ensures privacy
-
-### Message Flow
-
-```mermaid
-graph LR
-    A[User sends @mention] --> B[Parse mentions]
-    B --> C[Validate users]
-    C --> D[Save with visibility]
-    D --> E[Broadcast to mentioned users only]
+```env
+CONNECTION_STRING=your_mongodb_connection_string
+JWT_SECRET_KEY=your_jwt_secret_key
+PORT=7771
 ```
 
-## 🛡️ Security Features
-
-- **JWT Authentication**: Secure token-based authentication
-- **Group Membership Enforcement**: Only group members can be mentioned
-- **Database-Level Privacy**: Privacy enforced before data leaves the server
-- **No Client-Side Bypasses**: All validation happens server-side
-- **Secure Socket Connections**: Protected real-time communication
-
-## 🎨 UI Components
-
-- **MessageBubble**: Displays individual messages with sender info
-- **GroupChatWindow**: Main chat interface with message list
-- **Private Mention Indicator**: Visual feedback for private messages
-- **Dark Mode Support**: Automatic theme switching
-
-## 📊 Database Schema
-
-### Messages Collection
-
-```javascript
-{
-  _id: ObjectId,
-  senderId: ObjectId,
-  groupId: ObjectId,
-  message: String,
-  messageType: "group",
-  mentions: [ObjectId],           // Mentioned user IDs
-  visibleToUserIds: [ObjectId],   // Users who can see the message
-  timestamp: Date,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-## 🔌 API Reference
-
-### Socket Events
-
-#### Client → Server
-- `sendGroupMessage`: Send a message to a group
-- `joinRoom`: Join a group chat room
-- `leaveRoom`: Leave a group chat room
-
-#### Server → Client
-- `groupMessageReceived`: Receive a new group message
-- `userJoined`: Notification when user joins
-- `userLeft`: Notification when user leaves
-
-## 🧪 Testing
-
+### Production Build
 ```bash
-# Run server tests
+# Backend
 cd server
-npm test
+npm start
 
-# Run client tests
+# Frontend
 cd client
-npm test
+npm run build
+npm run preview
 ```
 
-## 📈 Performance
+### Docker Deployment (Optional)
+```dockerfile
+# Add Dockerfile for containerized deployment
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 7771
+CMD ["npm", "start"]
+```
 
-- **Efficient Database Queries**: Optimized with proper indexing
-- **Smart Socket Broadcasting**: Reduces unnecessary network traffic
-- **React Optimization**: Efficient state management and re-rendering
-- **Lazy Loading**: Conversation history loaded on demand
+## 🛠️ Development
+
+### Available Scripts
+
+#### Backend
+```bash
+npm start          # Start development server with nodemon
+npm test           # Run tests (to be implemented)
+```
+
+#### Frontend
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run preview    # Preview production build
+npm run lint       # Run ESLint
+```
+
+### Contributing
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📱 Screenshots
+
+### Desktop View
+![Desktop Chat Interface](screenshots/desktop-chat.png)
+
+### Mobile View
+![Mobile Chat Interface](screenshots/mobile-chat.png)
+
+### Group Management
+![Group Management](screenshots/group-management.png)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Development Setup
+1. Fork and clone the repository
+2. Install dependencies for both client and server
+3. Set up your MongoDB instance
+4. Configure environment variables
+5. Start both development servers
 
-## 📝 License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Authors
+## 👥 Team
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Junaid** - Project Lead & Full-Stack Developer
 
-## 🙏 Acknowledgments
+## 🆘 Support
 
-- Socket.IO for real-time communication
-- MongoDB for flexible data storage
-- React community for amazing tools and libraries
-- All contributors who help improve this project
+If you encounter any issues or have questions:
 
-## 📧 Contact
+1. Check the [Issues](https://github.com/yourusername/slashtalk/issues) page
+2. Create a new issue with detailed information
+3. Contact us at [your-email@example.com](mailto:your-email@example.com)
 
-- Project Link: [https://github.com/yourusername/slashchat](https://github.com/yourusername/slashchat)
-- Email: your.email@example.com
+## 🔮 Roadmap
 
+### Upcoming Features
+- [ ] File sharing and media uploads
+- [ ] Message reactions and replies
+- [ ] Voice and video calling
+- [ ] Push notifications
+- [ ] Message search functionality
+- [ ] Custom themes and personalization
+- [ ] Message encryption
+- [ ] Bot integration
+- [ ] Message scheduling
+
+### Performance Improvements
+- [ ] Message pagination
+- [ ] Image optimization
+- [ ] Database query optimization
+- [ ] Caching implementation
 
 ---
 
-⭐ **Star this repository if you find it helpful!**
+## 🙏 Acknowledgments
+
+- **Socket.IO** for real-time communication
+- **TailwindCSS** for beautiful styling
+- **React Team** for the amazing framework
+- **MongoDB** for reliable data storage
+
+---
+
+**Made with ❤️ by the SlashTalk Team**
+
+*Start chatting and connecting with people around the world!*
